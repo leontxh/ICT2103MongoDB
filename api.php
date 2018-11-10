@@ -15,6 +15,7 @@
        $result = curl_exec($ch);
        $data = json_decode($result, true);    
        //print_r($data);
+       print_r($result);
        #print_r($data);
        
        curl_close($ch);
