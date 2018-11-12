@@ -9,13 +9,15 @@ $results_per_page = 20;
 
 if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
 $start_from = ($page-1) * $results_per_page;
-$sql = "SELECT * FROM traffic_incident ORDER BY message DESC LIMIT $start_from, ".$results_per_page;
-$rs_result = $conn->query($sql);
+$collection = $db->traffic_incident;
+//$cursor = $collection.limit($start_from)->find().$results_per_page;
+$cursor = $collection->find();
 
-session_start();
-if(!isset($_SESSION['username'])){ //if login in session is not set
-   header("Location: loginPage.php");
-}
+
+//session_start();
+//if(!isset($_SESSION['username'])){ //if login in session is not set
+//   header("Location: loginPage.php");
+//}
 
 
 ?>
@@ -78,38 +80,38 @@ if(!isset($_SESSION['username'])){ //if login in session is not set
                      <tbody>
                      <tr>
                      <?php
-                    while ($test = $rs_result->fetch_assoc())
-                    {
-                     $tititle = $test['tititle'];
-                     echo"<td>".$test['tititle']."</td>";
-                     echo"<td>".$test['longitude']."</td>";
-                     echo"<td>".$test['latitude']."</td>";
-                     echo"<td>".$test['message']."</td>";
-                     echo"<td>".$test['status']."</td>";
-                     echo"<td>".$test['region']."</td>";
+                     foreach($cursor as $doc)
+                     {
+                     $type = $doc['Type'];
+                     echo"<td>".$doc['Type']."</td>";
+                     echo"<td>".$doc['Longitude']."</td>";
+                     echo"<td>".$doc['Latitude']."</td>";
+                     echo"<td>".$doc['Message']."</td>";
+                     echo"<td>".$doc['status']."</td>";
+                     echo"<td>".$doc['region']."</td>";
                      echo '<td width=250>';
                      echo ' ';
-                     echo '<a class="btn btn-primary" href="viewIncident.php?trafficID='.$test['trafficID'].'">View</a>';
+                     echo '<a class="btn btn-primary" href="viewIncident.php?trafficID='.$doc['_id'].'">View</a>';
                      echo ' ';
-                     echo '<a class="btn btn-success" href="update.php?trafficID='.$test['trafficID'].'">Update</a>';
+                     echo '<a class="btn btn-success" href="update.php?trafficID='.$doc['_id'].'">Update</a>';
                            echo ' ';
-                           echo '<a class="btn btn-danger" href="delete.php?trafficID='.$test['trafficID'].'">Delete</a>';
+                           echo '<a class="btn btn-danger" href="delete.php?trafficID='.$doc['_id'].'">Delete</a>';
                            echo '</td>';
                      echo "</tr>";
                      }
                      ?>
 
                     <?php
-                    $sql = "SELECT COUNT(trafficID) AS total FROM traffic_incident";
-                    $result = $conn->query($sql);
-                    $row = $result->fetch_assoc();
-                    $total_pages = ceil($row["total"] / $results_per_page); // calculate total pages with results
+                    //$sql = "SELECT COUNT(trafficID) AS total FROM traffic_incident";
+                     //$result = $conn->query($sql);
+                     //$row = $result->fetch_assoc();
+                    // $total_pages = ceil($row["total"] / $results_per_page); // calculate total pages with results
 
-                    for ($i=1; $i<=$total_pages; $i++) {  // print links for all pages
-                                echo "<a href='trafficTable.php?page=".$i."'";
-                                if ($i==$page)  echo " class='curPage'";
-                                echo ">". $i ."</a> &nbsp;";
-                    };
+                   //  for ($i=1; $i<=$total_pages; $i++) {  // print links for all pages
+                          //       echo "<a href='trafficTable.php?page=".$i."'";
+                             //    if ($i==$page)  echo " class='curPage'";
+                            //     echo ">". $i ."</a> &nbsp;";
+                    // };
                     ?>
 
                     </table>
