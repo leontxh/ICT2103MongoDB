@@ -1,7 +1,14 @@
 <?php
 
-$db = new Mongo\Driver\Manager('mongodb://localhost:27017', array(
-                              
-                                'db' => 'ict2103'
-));
+   require '..\vendor\autoload.php';
+   
+   $connect = new MongoDB\Client();
+   $db = $connect ->ict2103;
+   $collection = $db->user;
+   $cursor = $collection->find();
+   foreach ( $cursor as $result) 
+    {
+       echo "Connect successfully";
+       print_r($result);
+    }
 ?>
