@@ -1,4 +1,4 @@
-<?php // include 'masterpage.php' ?>
+<?php include 'masterpage.php' ?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -20,6 +20,7 @@ $cursor = $collection->find(array("status" => $status,"region" => array('$ne' =>
        * element that contains the map. */
       #map {
         height: 100%;
+         zoom: 1.5;
         
       }
       /* Optional: Makes the sample page fill the window. */
@@ -53,21 +54,21 @@ $cursor = $collection->find(array("status" => $status,"region" => array('$ne' =>
             var infowindow = new google.maps.InfoWindow();
 
     var marker, i;
-
+<?PHP foreach($cursor as $docx){ ?>
     //for (i = 0; i < locations.length; i++) {  
 
       marker = new google.maps.Marker({
-        position: new google.maps.LatLng(<?php echo $value["Latitude"] ?>, <?php echo $value["Longitude"] ?>),
+        position: new google.maps.LatLng(<?php echo $docx["Latitude"] ?>, <?php echo $docx["Longitude"] ?>),
         map: map
       });
 
       google.maps.event.addListener(marker, 'click', (function(marker, i) {
         return function() {
-          infowindow.setContent("<?php echo $value["Message"] ?>");
+          infowindow.setContent("<?php echo $docx["Message"] ?>");
           infowindow.open(map, marker);
         }
       })(marker, i));
-
+<?PHP } ?>
         
       }//end init map
     </script>
