@@ -1,4 +1,4 @@
-<?php include 'masterpage.php' ?>
+<?php // include 'masterpage.php' ?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -12,11 +12,7 @@ $region = 'None';
 $collection = $db->traffic_incident;
 $cursor = $collection->find(array("status" => $status,"region" => array('$ne' => $region)));
 
-foreach ($cursor as $value) {
-        $longtitude[] =$value['Longitude'];
-        $latitude[] = $value['Latitude'] ;
-        $message[] = $value['Message'] ;
- }
+
 
 ?>
     <style>
