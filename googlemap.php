@@ -7,16 +7,17 @@
     <meta charset="utf-8">
     <?php
 include 'process/process_basicSetup.php';
-// Checking mysql connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
 $status='Unresolved';
 $region = 'None';
-// Writing a mysql query to retrieve data
-$sql = "SELECT * FROM traffic_incident WHERE status = '$status' AND region <> '$region'";
-$result = mysqli_query($conn,$sql);
-$resultCheck = mysqli_num_rows($result);
+$collection = $db->traffic_incident;
+$cursor = $collection->find(array("status" => $status,"region" => array('$ne' => $region)));
+
+foreach ($cursor as $value) {
+        $longtitude[] =$value['Longitude'];
+        $latitude[] = $value['Latitude'] ;
+        $message[] = $value['Message'] ;
+ }
+
 ?>
     <style>
       /* Always set the map height explicitly to define the size of the div
@@ -49,7 +50,7 @@ $resultCheck = mysqli_num_rows($result);
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 1.3521, lng: 103.8198},
-          zoom: 12
+          zoom: 11
         });
         
         
@@ -58,37 +59,24 @@ $resultCheck = mysqli_num_rows($result);
     var marker, i;
 
     //for (i = 0; i < locations.length; i++) {  
-    <?php 
-          if ($resultCheck > 0) {
-        // Show each data returned by mysql
-        while($row = mysqli_fetch_assoc($result)) {
-    ?>
-    
+
       marker = new google.maps.Marker({
-        position: new google.maps.LatLng(<?php echo $row["latitude"] ?>, <?php echo $row["longitude"] ?>),
+        position: new google.maps.LatLng(<?php echo $value["Latitude"] ?>, <?php echo $value["Longitude"] ?>),
         map: map
       });
 
       google.maps.event.addListener(marker, 'click', (function(marker, i) {
         return function() {
-          infowindow.setContent("<?php echo $row["message"] ?>");
+          infowindow.setContent("<?php echo $value["Message"] ?>");
           infowindow.open(map, marker);
         }
       })(marker, i));
-      <?php
-            } //end while
-} //end if
-else {
-  echo "0 results";
-}
 
-// Closing mysql connection
-$conn->close();
-?>
         
       }//end init map
     </script>
-          
+   
+         
       </div>
    
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOyCLiYkNnw4CcfkQn38YGFqRyEZoRC6k&callback=initMap" async defer>

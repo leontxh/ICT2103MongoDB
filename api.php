@@ -35,12 +35,13 @@
                 $checkExisting= array("Type" => $newArray[0][$i]["Type"], "Longitude" => $newArray[0][$i]["Longitude"],
                                         "Latitude"=>$newArray[0][$i]["Latitude"], "Message" => $newArray[0][$i]["Message"],
                                         "status" => $status,"region"=>$region);
-                 if (!empty($checkExisting)){
-                     echo 'Data already exists';
+                  $cursorFind = $collection->findOne($checkExisting);
+                 if (!empty($cursorFind)){
+                      $collection->updataeOne($checkExisting);
                  }
                  else 
                  {
-                    $trafficIncident= array("Type" => $newArray[0][$i]["Type"], "Longitude" => $newArray[0][$i]["Longitude"],
+                    $trafficIncident= array("Type" => $newArray[0][$i]["Type"], "Long=itude" => $newArray[0][$i]["Longitude"],
                                         "Latitude"=>$newArray[0][$i]["Latitude"], "Message" => $newArray[0][$i]["Message"],
                                         "status" => $status,"region"=>$region);
                     $collection->insertOne($trafficIncident);

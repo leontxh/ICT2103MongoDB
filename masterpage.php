@@ -1,9 +1,9 @@
  <?php 
-    session_start(); 
-    $id=$_SESSION['id'];
-    if(!$_SESSION['id']){
-        header('Location: loginindex.php');
-    }
+//    session_start(); 
+//    $id=$_SESSION['id'];
+//    if(!$_SESSION['id']){
+//        header('Location: loginindex.php');
+//    }
     include 'process/process_basicSetup.php';
  
  ?>

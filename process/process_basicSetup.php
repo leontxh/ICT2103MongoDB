@@ -1,6 +1,6 @@
 <?php
 
-   require 'C:\xampp\htdocs\ICT2103MDB\vendor\autoload.php';
+   require '..\..\htdocs\ICT2103MDB\vendor\autoload.php';
    
    $connect = new MongoDB\Client();
    $db = $connect ->ict2103;
