@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-//include 'masterpage.php';
+include 'masterpage.php';
 include "process/process_basicSetup.php";
 $collection = $db->traffic_incident;
 $typeResult = $collection->distinct("Type");
@@ -85,33 +85,48 @@ $typeResult = $collection->distinct("Type");
                                 <tbody>
                                 <?php
                                    $collectionFind = $db->traffic_incident;
+                                   
                                     $i = 0;
                                     $selectedOptionCount = count($_POST['Type']);
+                                    
                                     $selectedOption = "";
                                     while ($i < $selectedOptionCount) {
-                                        $selectedOption = $selectedOption . "'" . $_POST['Type'][$i] . "'";
+                                        
+                                        $selectedOption = $selectedOption  . $_POST['Type'][$i];
                                         if ($i < $selectedOptionCount - 1) {
                                             $selectedOption = $selectedOption . ", ";
                                         }
 
                                         $i ++;
                                     }
-                                    $result = $collectionFind->find(array("Type" => "$selectedOption"));
-                                }
-                                if (! empty($result)) {
+                                    $result = $collectionFind->find(array('Type' => $selectedOption));
                                     
-                                    foreach ($result as $key) {
-                                        
+                                }
+//                                if (!empty($result)) {
+
+                                    foreach ($result as $doc) {
+                                                                            
                                         ?>
-                                    <tr>    
-                                        <td><?php echo $result[$key]['Type']; ?></td>
-                                        <td><?php echo $result[$key]['Longitude']; ?> </td>
-                                        <td><?php echo $result[$key]['Latitude']; ?> </td>
-                                        <td><?php echo $result[$key]['Message']; ?> </td>
-                                        <td><?php echo $result[$key]['status']; ?> </td>
-                                        <td><?php echo $result[$key]['region']; ?> </td>
-                                     
-                                    </tr>
+                                <tr>
+                                     <?php
+                             
+                                         $type = $doc['Type'];
+                                        echo"<td>".$doc['Type']."</td>";
+                                        echo"<td>".$doc['Longitude']."</td>";
+                                        echo"<td>".$doc['Latitude']."</td>";
+                                        echo"<td>".$doc['Message']."</td>";
+                                        echo"<td>".$doc['status']."</td>";
+                                        echo"<td>".$doc['region']."</td>";
+                                        echo '<td width=250>';
+                                        echo ' ';
+                                        echo '<a class="btn btn-primary" href="viewIncident.php?trafficID='.$doc['_id'].'">View</a>';
+                                        echo ' ';
+                                        echo '<a class="btn btn-success" href="update.php?trafficID='.$doc['_id'].'">Update</a>';
+                                              echo ' ';
+                                              echo '<a class="btn btn-danger" href="delete.php?trafficID='.$doc['_id'].'">Delete</a>';
+                                              echo '</td>';
+                                        echo "</tr>";
+                                    ?>
                                 <?php
                                     }
                                     ?>
@@ -120,10 +135,7 @@ $typeResult = $collection->distinct("Type");
                             </table>
                             </div>
                             <?php
-                                }
-                                else{
-                                    echo "empty";
-                                }
+//                                }
                                 ?>  
                         </div>
                     </form>
