@@ -6,19 +6,17 @@
  * and open the template in the editor.
  */
 
-include 'DBController.php';
 include 'masterpage.php';
-$db_handle = new DBController();
-$typeResult = $db_handle->runQuery("SELECT DISTINCT tititle FROM traffic_incident");
-$typeResult2 = $db_handle->runQuery("SELECT DISTINCT region FROM traffic_incident");
+include "process/process_basicSetup.php";
+$collection = $db->traffic_incident;
+$typeResult = $collection->distinct("Type");
+$typeResult2 = $collection->distinct("region");;
 
-
-
-session_start();
-if(!isset($_SESSION['username'])){ //if login in session is not set
-    header("Location: loginPage.php");
-    
-}
+//session_start();
+//if(!isset($_SESSION['username'])){ //if login in session is not set
+//    header("Location: loginPage.php");
+//    
+//}
 ?>
 <head>
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -52,12 +50,12 @@ if(!isset($_SESSION['username'])){ //if login in session is not set
 <form method="POST" name="search" action="advancedSearch.php">
     <div id="demo-grid">
         <div class="search-box">
-            <select id="Place" name="tititle[]" multiple="multiple">
+            <select id="Place" name="Type[]" multiple="multiple">
                   <option value="0" selected="selected">Select type</option>
                     <?php
                     if (! empty($typeResult)) {
                         foreach ($typeResult as $key => $value) {
-                            echo '<option value="' . $typeResult[$key]['tititle'] . '">' . $typeResult[$key]['tititle'] . '</option>';
+                            echo '<option value="' . $typeResult[$key] . '">' . $typeResult[$key] . '</option>';
                         }
                     }
                     ?>
@@ -68,7 +66,7 @@ if(!isset($_SESSION['username'])){ //if login in session is not set
                     <?php
                     if (! empty($typeResult2)) {
                         foreach ($typeResult2 as $key => $value) {
-                            echo '<option value="' . $typeResult2[$key]['region'] . '">' . $typeResult2[$key]['region'] . '</option>';
+                            echo '<option value="' . $typeResult2[$key] . '">' . $typeResult2[$key] . '</option>';
                         }
                     }
                     ?>
@@ -80,7 +78,7 @@ if(!isset($_SESSION['username'])){ //if login in session is not set
         </div>
 
             <?php
-            if (! empty($_POST['tititle'])) {
+            if (! empty($_POST['Type'])) {
                 ?>
         
             
@@ -100,12 +98,12 @@ if(!isset($_SESSION['username'])){ //if login in session is not set
             </thead>
             <tbody>
             <?php
-                $query = "SELECT * from traffic_incident";
+                $collectionFind = $db->traffic_incident;
                 $i = 0;
-                $selectedOptionCount = count($_POST['tititle']);
+                $selectedOptionCount = count($_POST['Type']);
                 $selectedOption = "";
                 while ($i < $selectedOptionCount) {
-                    $selectedOption = $selectedOption . "'" . $_POST['tititle'][$i] . "'";
+                    $selectedOption = $selectedOption .$_POST['Type'][$i];
                     if ($i < $selectedOptionCount - 1) {
                         $selectedOption = $selectedOption . ", ";
                     }
@@ -117,7 +115,7 @@ if(!isset($_SESSION['username'])){ //if login in session is not set
                 $selectedOptionCount2 = count($_POST['region']);
                 $selectedOption2 = "";
                 while ($j < $selectedOptionCount2) {
-                    $selectedOption2 = $selectedOption2 . "'" . $_POST['region'][$j] . "'";
+                    $selectedOption2 = $selectedOption2 .$_POST['region'][$j];
                     if ($j < $selectedOptionCount2 - 1) {
                         $selectedOption2 = $selectedOption2 . ", ";
                     }
@@ -125,33 +123,34 @@ if(!isset($_SESSION['username'])){ //if login in session is not set
                     $j++;
                 }
                 
-                $query = $query . " WHERE tititle in (" . $selectedOption . ")" . " AND region in (" . $selectedOption2 . ")";
-
-                $result = $db_handle->runQuery($query);
+              $result = $collectionFind->find(array('Type' => $selectedOption,'region' => $selectedOption2));
             }
             if (! empty($result)) {
-                foreach ($result as $key => $value) {
+                foreach ($result as $doc) {
                     ?>
             <tr>
-                    <td><?php echo $result[$key]['tititle']; ?></td>
-                    <td><?php echo $result[$key]['longitude']; ?> </td>
-                    <td><?php echo $result[$key]['latitude']; ?> </td>
-                    <td><?php echo $result[$key]['message']; ?> </td>
-                    <td><?php echo $result[$key]['status']; ?> </td>
-                    <td><?php echo $result[$key]['region']; ?> </td>
-                    <?php echo '<td width=250>';
-                        echo ' ';
-                        echo '<a class="btn btn-primary" href="viewIncident.php?trafficID='.$result[$key]['trafficID'].'">View</a>';
-                        echo ' ';
-                        echo '<a class="btn btn-success" href="update.php?trafficID='.$result[$key]['trafficID'].'">Update</a>';
-                        echo ' ';
-                        echo '<a class="btn btn-danger" href="delete.php?trafficID='.$result[$key]['trafficID'].'">Delete</a>';
-                        echo '</td>';
-                        echo '</td>'; ?>
-                </tr>
-            <?php
-                }
-                ?>
+                   <?php
+                                        $type = $doc['Type'];
+                                        echo"<td>".$doc['Type']."</td>";
+                                        echo"<td>".$doc['Longitude']."</td>";
+                                        echo"<td>".$doc['Latitude']."</td>";
+                                        echo"<td>".$doc['Message']."</td>";
+                                        echo"<td>".$doc['status']."</td>";
+                                        echo"<td>".$doc['region']."</td>";
+                                        echo '<td width=250>';
+                                        echo ' ';
+                                        echo '<a class="btn btn-primary" href="viewIncident.php?trafficID='.$doc['_id'].'">View</a>';
+                                        echo ' ';
+                                        echo '<a class="btn btn-success" href="update.php?trafficID='.$doc['_id'].'">Update</a>';
+                                              echo ' ';
+                                              echo '<a class="btn btn-danger" href="delete.php?trafficID='.$doc['_id'].'">Delete</a>';
+                                              echo '</td>';
+                                        echo "</tr>";
+                                    ?>
+                                <?php
+                                
+                                    }
+                                    ?>
 
             </tbody>
         </table>

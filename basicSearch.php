@@ -102,7 +102,7 @@ $typeResult = $collection->distinct("Type");
                                     $result = $collectionFind->find(array('Type' => $selectedOption));
                                     
                                 }
-//                                if (!empty($result)) {
+                            if (!empty($result)) {
 
                                     foreach ($result as $doc) {
                                                                             
@@ -128,6 +128,7 @@ $typeResult = $collection->distinct("Type");
                                         echo "</tr>";
                                     ?>
                                 <?php
+                                
                                     }
                                     ?>
 
@@ -135,7 +136,8 @@ $typeResult = $collection->distinct("Type");
                             </table>
                             </div>
                             <?php
-//                                }
+                            
+                            }
                                 ?>  
                         </div>
                     </form>
