@@ -9,18 +9,21 @@ include 'masterpage.php';
     
     if ( !empty($_POST)) {
      include 'process/process_basicSetup.php';
-    if (!$conn) {
-            die ('Failed to connect to MySQL: ' . mysqli_connect_error());	
-    }
+   
     $trafficID = $_REQUEST['trafficID'];
-    $sql = "DELETE FROM Traffic_incident WHERE trafficID = $trafficID";
-    $query = mysqli_query($conn, $sql); 
-    if (mysqli_query($conn, $sql)) {
-        echo "Record deleted successfully";
-        header("Location: traffictable.php");
-    } else {
-        echo "Error deleting record: " . mysqli_error($conn);
-    }
+    $collection = $db->traffic_incident;
+    
+    try {
+                $cursor = $collection->deleteOne(array("_id" => (new MongoDB\BSON\ObjectID($trafficID))));   
+                echo $cursor;
+                echo '<script language="javascript">
+                alert("Delete Successfully");
+        </script>';
+        } catch(MongoCursorException $e) {
+             echo '<script language="javascript">
+                alert("Delete fail");
+        </script>';
+        }
     }
 ?>
 <head>
@@ -86,4 +89,3 @@ include 'masterpage.php';
 
 </body>
 
-\

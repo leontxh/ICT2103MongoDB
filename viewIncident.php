@@ -1,4 +1,4 @@
-<?php include 'masterpage.php'; ?>
+<?php  include 'masterpage.php'; ?>
 
 <!DOCTYPE html>
 <html>
@@ -15,24 +15,19 @@
         header("Location: trafficTable.php");
     }
     include 'process/process_basicSetup.php'; 
-
-    if (!$conn) {
-            die ('Failed to connect to MySQL: ' . mysqli_connect_error());	
-    }
-    $sql = "SELECT * FROM Traffic_incident WHERE trafficID = $trafficID";
-    $query = mysqli_query($conn, $sql); 
-    $data = mysqli_fetch_array($query);
-    $result = mysqli_query($conn,$sql);
-    $resultCheck = mysqli_num_rows($result);
-
-    $tititle = $data['tititle'];
-    $longitude = $data['longitude'];
-    $latitude = $data['latitude'];
-    $message = $data['message'];
-    $status = $data['status'];
+  
+    $collection = $db->traffic_incident;
+    $cursor = $collection->findOne(array("_id" => (new MongoDB\BSON\ObjectID($trafficID))));
+    
+    $tititle = $cursor['Type'];
+    $longitude = $cursor['Longitude'];
+    $latitude = $cursor['Latitude'];
+    $message = $cursor['Message'];
+    $status = $cursor['status'];
+    $region = $cursor['region'];
 ?>
     <style>
-      /* Always set the map height explicitly to define the size of the div
+      /* Always set the map height explicitly to defiane the size of the div
        * element that contains the map. */
       #map {
         height: 40%;
@@ -83,33 +78,19 @@
     var marker, i;
 
     //for (i = 0; i < locations.length; i++) {  
-    <?php 
-          if ($resultCheck > 0) {
-        // Show each data returned by mysql
-        while($row = mysqli_fetch_assoc($result)) {
-    ?>
-    
+
       marker = new google.maps.Marker({
-        position: new google.maps.LatLng(<?php echo $row["latitude"] ?>, <?php echo $row["longitude"] ?>),
+        position: new google.maps.LatLng(<?php echo $cursor["Latitude"] ?>, <?php echo $cursor["Longitude"] ?>),
         map: map
       });
 
       google.maps.event.addListener(marker, 'click', (function(marker, i) {
         return function() {
-          infowindow.setContent("<?php echo $row["message"] ?>");
+          infowindow.setContent("<?php echo $cursor["Message"] ?>");
           infowindow.open(map, marker);
         }
       })(marker, i));
-      <?php
-            } //end while
-} //end if
-else {
-  echo "0 results";
-}
 
-// Closing mysql connection
-$conn->close();
-?>
         
       }//end init map
     </script>
@@ -175,6 +156,17 @@ $conn->close();
                         </div>
                       </div>
                         
+                  <div class="control-group <?php echo !empty($regionError)?'error':'';?>">
+                        <label class="control-label">Region</label>
+                         <div class="controls">
+                            <input name="status" type="text"  disabled="true" value="<?php echo !empty($region)?$region:'';?>">
+                            <?php if (!empty($regionError)): ?>
+                                <span class="help-inline"><?php echo $regionError;?></span>
+                            <?php endif;?>
+                        </div>
+                        </div>
+                      </div>
+                    
                         <div class="form-actions">
                             <a href="javascript:history.go(-1)" title="Return to the previous page">&laquo; Go back</a>
                         </div>
