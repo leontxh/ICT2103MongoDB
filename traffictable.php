@@ -4,7 +4,7 @@
 include 'masterpage.php';
 include 'process/process_basicSetup.php';
 
-$results_per_page = 20;
+$results_per_page = 5;
 
 
 if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
@@ -104,17 +104,19 @@ $cursor = $collection->find();
                     <?php
                     
                     //$sql = "SELECT COUNT(trafficID) AS total FROM traffic_incident";
-//                    $cursorFind = $collection->find(array("_id" => (new MongoDB\BSON\ObjectID())));
-//                    $total = count(var_dump($cursorFind));
-//                     //$result = $conn->query($sql);
-//                     //$row = $result->fetch_assoc();
-//                     $total_pages = ceil( $total / $results_per_page); // calculate total pages with results
-//
-//                     for ($i=1; $i<=$total_pages; $i++) {  // print links for all pages
-//                                 echo "<a href='trafficTable.php?page=".$i."'";
-//                                 if ($i==$page)  echo " class='curPage'";
-//                                 echo ">". $i ."</a> &nbsp;";
-//                     };
+                    //$cursorFind = $collection->find(array("_id" => (new MongoDB\BSON\ObjectID())));
+                    $cursorFind = $collection->count();
+                    //$total = count(var_dump($cursorFind));
+                    //$result = $conn->query($sql);
+                    //$row = $result->fetch_assoc();
+                    echo $cursorFind;
+                    $total_pages = ceil( $cursorFind / $results_per_page); // calculate total pages with results
+
+                    for ($i=1; $i<=$total_pages; $i++) {  // print links for all pages
+                                echo "<a href='trafficTable.php?page=".$i."'";
+                                if ($i==$page)  echo " class='curPage'";
+                                echo ">". $i ."</a> &nbsp;";
+                    };
                     ?>
 
                     </table>
