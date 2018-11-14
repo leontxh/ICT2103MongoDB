@@ -4,7 +4,7 @@
 include 'masterpage.php';
 include 'process/process_basicSetup.php';
 
-$results_per_page = 5;
+$results_per_page = 15;
 
 
 if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
@@ -44,25 +44,26 @@ $cursor = $collection->find(array(), array('limit'=>$results_per_page, 'skip'=>$
 
                 <div class="maincontent">
 
-                    <button><a href='api.php' target="target" onclick="return RefreshWindow();">Update Table</a></button>
+                      <button class="btn btn-info"><a style="text-decoration: none; color: white;" href='api.php' target="target" onclick="return RefreshWindow();">Update Table</a></button>
 
                     <script language='javascript'>
                         function RefreshWindow()
                         {
                             window.location.reload(true);
                         }
-                        
-                        
+
+
                     </script>
 
-                    <button><a href="exportExcel.php" target="target" >Download Excel</a></button>
+                    <button class="btn btn-warning"><a style="text-decoration: none; color: white;" href="exportExcel.php" target="target" >Download Excel</a></button>
 
-                    <button><a href="basicSearch.php">Search by Type</a></button>
+                    <button class="btn btn-info"><a style="text-decoration: none; color: white;" href="basicSearch.php">Search by Type</a></button>
 
-                    <button><a href="advancedSearch.php">Search by Type & Region</a></button>
+                    <button class="btn btn-warning"><a style="text-decoration: none; color: white;" href="advancedSearch.php">Search by Type & Region</a></button>
 
-                    <button><a href="profile.php">Go back to profile</a></button>
-                    
+                    <button class="btn btn-info"><a style="text-decoration: none; color: white;" href="profile.php">Go back to profile</a></button>
+
+
 
                     <div class="container">
 
@@ -101,22 +102,23 @@ $cursor = $collection->find(array(), array('limit'=>$results_per_page, 'skip'=>$
                      }
                      ?>
 
-                    <?php
-                    
-                    //$sql = "SELECT COUNT(trafficID) AS total FROM traffic_incident";
-                    //$cursorFind = $collection->find(array("_id" => (new MongoDB\BSON\ObjectID())));
-                    $cursorFind = $collection->count();
-                    //$total = count(var_dump($cursorFind));
-                    //$result = $conn->query($sql);
-                    //$row = $result->fetch_assoc();
-                    $total_pages = ceil( $cursorFind / $results_per_page); // calculate total pages with results
+                     <nav aria-label="Page navigation">
+                       <ul class="pagination">
+                          <?php
 
-                    for ($i=1; $i<=$total_pages; $i++) {  // print links for all pages
-                                echo "<a href='trafficTable.php?page=".$i."'";
-                                if ($i==$page)  echo " class='curPage'";
-                                echo ">". $i ."</a> &nbsp;";
-                    };
-                    ?>
+                          //$sql = "SELECT COUNT(trafficID) AS total FROM traffic_incident";
+                          //$cursorFind = $collection->find(array("_id" => (new MongoDB\BSON\ObjectID())));
+                          $cursorFind = $collection->count();
+                          //$total = count(var_dump($cursorFind));
+                          //$result = $conn->query($sql);
+                          //$row = $result->fetch_assoc();
+                          $total_pages = ceil( $cursorFind / $results_per_page); // calculate total pages with results
+                          ?>
+                          <?php
+                          for ($i=1; $i<=$total_pages; $i++) {    // print links for all pages?>
+                                       <li><a href="traffictable.php?page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+                          <?php } ?>
+
 
                     </table>
 
