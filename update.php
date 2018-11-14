@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <?php
 // Server credentials
- if ( !empty($_GET['trafficID'])) {
+     if ( !empty($_GET['trafficID'])) {
         $trafficID = $_REQUEST['trafficID'];
     }
      if ( null==$trafficID ) {
