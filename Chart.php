@@ -1,29 +1,35 @@
-<?php include 'masterpage.php'; ?>
+<?php // include 'masterpage.php'; ?>
 <!DOCTYPE HTML>
 <?php
    	include 'process/process_basicSetup.php';
    	date_default_timezone_set('Asia/Singapore');
-    if (!$conn) {
-            die ('Failed to connect to MySQL: ' . mysqli_connect_error());	
-    }
-    $sql = "SELECT region FROM Traffic_incident";
-    $result = mysqli_query($conn, $sql);
+        $collection = $db->traffic_incident;
+
+//    if (!$$collection) {
+//            die ('Failed to connect to MongoDB');	
+//    }
+    $cursor = $collection->find(array(), array("region" => 1));
+    //$sql = "SELECT region FROM Traffic_incident";
+    //$result = mysqli_query($conn, $sql);
     //$numOfResult = mysqli_num_rows($result);
     $regionArray = ["North", "North East", "West", "East", "Central"];
     $numPerRegion = [0, 0, 0, 0, 0];
     $date = 0;
-    if($result){
-    	while($row=mysqli_fetch_row($result)){
+ 
+        foreach ($cursor as $doc){
+//    	while($row=$doc){
     		for ($i = 0; $i < sizeof($regionArray); $i++){
-    			if ($row[0] == $regionArray[$i]){
+    			if ($doc['region'] == $regionArray[$i]){
     				$numPerRegion[$i]++;
     				break;
     			}
     		}
     	}
-    }
-    $sql2 = "SELECT region, message FROM Traffic_incident";
-    $result2 = mysqli_query($conn, $sql2);
+//        }
+    
+     $cursor2 = $collection->find(array(), array("region" => 1,"message"=>1));
+    //$sql2 = "SELECT region, message FROM Traffic_incident";
+    //$result2 = mysqli_query($conn, $sql2);
     $past24HrArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     $past24HrTime = array();
     $currentHr = date("H");
@@ -34,8 +40,9 @@
     	$startingDay -= 1;
     	$startingHr = 24 + $startingHr;
     }
-   	if($result2){
-	    while($row2=mysqli_fetch_row($result2)){
+        
+   	if($cursor2 <> null){
+	    foreach ($cursor2 as $doc2)
 	    	for ($j = 0; $j < sizeof($past24HrArray); $j++){
 	    		$currentHrIncrement = $startingHr + $j;
 	    		if ($currentHrIncrement > 23){
@@ -44,8 +51,8 @@
 	    		if (sizeof($past24HrTime) < 24){		
 	    			array_push($past24HrTime, $currentHrIncrement);
 	    		}
-	    		if ((int)substr($row2[1], 1, 2) >= $startingDay){
-					if ((int)substr($row2[1], 7, 2) == $currentHrIncrement){
+	    		if ((int)substr($doc2['region'], 1, 2) >= $startingDay){
+					if ((int)substr($row2['region'], 7, 2) == $currentHrIncrement){
 		    			$past24HrArray[$j]++;
 		    			break;
 	    			}
@@ -53,7 +60,7 @@
 	    		$currentHrIncrement = $startingHr;
 	    	}
 	    }
-    }
+    
 ?>
 <html>
 <head>
