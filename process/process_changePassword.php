@@ -29,7 +29,7 @@ $collection = $db->user;
                 $idInfo = array("userID"  => $_SESSION['id']);
                 $cursorFind = $collection->findOne($idInfo);
                 
-                if ($oldpassword == $cursorFind['password']){
+                if ($oldpassword == md5($cursorFind['password'])){
                     if ($newpassword == $cursorFind['password'])
                         echo "<p style=\"color:red;\">New password cannot be the same as old password.</p>";
                     else if (strlen($newpassword) < 8)
@@ -43,7 +43,7 @@ $collection = $db->user;
                     echo "<p style=\"color:red;\">The old password that you have entered is not the same.</p>";
                     echo $oldpassword;
                     echo "<br>";
-                    echo $cursorFind['password'];}
+                    echo md5($cursorFind['password']);}
             }
             else{
                 echo "<p style=\"color:red;\">Please make sure your new passwords are the same.</p>";
