@@ -111,7 +111,10 @@ $typeResult = $collection->distinct("Type");
 
                                         $i ++;
                                     }
-                                    $result = $collectionFind->find(array('Type' => $selectedOption));
+
+
+
+                                    $result = $collectionFind->find(array(), array('Type' => $selectedOption, 'limit'=>$results_per_page, 'skip'=>$start_from));
                                     
                                 }
                             if (!empty($result)) {
