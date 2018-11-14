@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -28,7 +28,7 @@ $typeResult = $collection->distinct("Type");
         height: 120px;
         width: 120px;
     }
-    
+
 </style>
 
 </head>
@@ -37,12 +37,12 @@ $typeResult = $collection->distinct("Type");
     <div class="container-fluid bg-1">
         <div class="row content">
             <div class="col-sm-1 sidenav">
-                
+
             </div>
             <div class="col-sm-10 mainscreen">
-     
+
                 <div class="maincontent">
-                    
+
                     <h2>Please select a option to filter</h2>
                     <form method="GET" name="search" action="basicSearch.php">
                         <div id="demo-grid">
@@ -85,25 +85,25 @@ $typeResult = $collection->distinct("Type");
                                 <tbody>
                                 <?php
                                    $collectionFind = $db->traffic_incident;
-                                   
+
                                     $i = 0;
                                     $selectedOptionCount = count($_GET['Type']);
                                     $selectedOption = "";
 
                                     $results_per_page = 10;
-                                    if (isset($_GET["page"])) 
-                                    { 
-                                        $page  = $_GET["page"]; 
-                                        
+                                    if (isset($_GET["page"]))
+                                    {
+                                        $page  = $_GET["page"];
+
                                     } else {
-                                        $page=1; 
-                                        
+                                        $page=1;
+
                                     }
                                     $start_from = ($page-1) * $results_per_page;
 
 
                                     while ($i < $selectedOptionCount) {
-                                        
+
                                         $selectedOption = $selectedOption  . $_GET['Type'][$i];
                                         if ($i < $selectedOptionCount - 1) {
                                             $selectedOption = $selectedOption . ", ";
@@ -115,16 +115,16 @@ $typeResult = $collection->distinct("Type");
 
 
                                     $result = $collectionFind->find(array('Type' => $selectedOption),array('limit'=>$results_per_page, 'skip'=>$start_from));
-                                    
+
                                 }
                             if (!empty($result)) {
 
                                     foreach ($result as $doc) {
-                                                                            
+
                                         ?>
                                 <tr>
                                      <?php
-                             
+
                                          $type = $doc['Type'];
                                         echo"<td>".$doc['Type']."</td>";
                                         echo"<td>".$doc['Longitude']."</td>";
@@ -139,31 +139,35 @@ $typeResult = $collection->distinct("Type");
                                         echo "</tr>";
                                     ?>
                                 <?php
-                                
+
                                     }
                                     ?>
+
+                                    <nav aria-label="Page navigation">
+                                      <ul class="pagination">
                                     <?php
 
                                     $countOfType = $collection->count(array('Type' => $selectedOption));
-                                    
-                                    $total_pages = ceil( $countOfType / $results_per_page); // calculate total pages with results
 
-                                    for ($i=1; $i<=$total_pages; $i++) {  // print links for all pages
-                                                echo "<a href='basicSearch.php?Type[]=". $_GET['Type'][0] ."&page=".$i."'";
-                                                if ($i==$page)  echo " class='curPage'";
-                                                echo ">". $i ."</a> &nbsp;";
+                                    $total_pages = ceil( $countOfType / $results_per_page); // calculate total pages with results
+                                    for ($i=1; $i<=$total_pages; $i++) {  // print links for all pages ?>
+                                      <li>
+                                        <?php
+                                          echo "<a href='basicSearch.php?Type[]=". $_GET['Type'][0] ."&page=".$i."'";
+                                          if ($i==$page)  echo " class='curPage'";
+                                            echo ">". $i ."</a> &nbsp;";
                                     };
 
 
                                     ?>
-
+                                  </li>
                                 </tbody>
                             </table>
                             </div>
                             <?php
-                            
+
                             }
-                                ?>  
+                                ?>
                         </div>
                     </form>
 
@@ -173,9 +177,9 @@ $typeResult = $collection->distinct("Type");
   		</div>
             </div>
             <div class="col-sm-1" sidenav>
-                
+
             </div>
-                 
+
         </div>
     </div>
 

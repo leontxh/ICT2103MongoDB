@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -15,7 +15,7 @@ $typeResult2 = $collection->distinct("region");;
 //session_start();
 //if(!isset($_SESSION['username'])){ //if login in session is not set
 //    header("Location: loginPage.php");
-//    
+//
 //}
 ?>
 <head>
@@ -31,7 +31,7 @@ $typeResult2 = $collection->distinct("region");;
         height: 120px;
         width: 120px;
     }
-    
+
 </style>
 
 </head>
@@ -39,10 +39,10 @@ $typeResult2 = $collection->distinct("region");;
   <div class="container-fluid bg-1">
         <div class="row content">
             <div class="col-sm-1 sidenav">
-                
+
             </div>
             <div class="col-sm-10 mainscreen">
-     
+
                 <div class="maincontent">
 <body>
 <h1>Search Function for type & region</h1>
@@ -71,7 +71,7 @@ $typeResult2 = $collection->distinct("region");;
                     }
                     ?>
             </select>
-            
+
             <br> <br>
             <button id="Filter">Search</button>
             <a href="traffictable.php">Back</a>
@@ -80,9 +80,9 @@ $typeResult2 = $collection->distinct("region");;
             <?php
             if (! empty($_GET['Type'])) {
                 ?>
-        
-            
-        
+
+
+
         <div class="container">
                 <table class="table table-bordered">
 
@@ -104,13 +104,13 @@ $typeResult2 = $collection->distinct("region");;
                 $selectedOption = "";
 
                 $results_per_page = 5;
-                if (isset($_GET["page"])) 
-                { 
-                    $page  = $_GET["page"]; 
-                    
+                if (isset($_GET["page"]))
+                {
+                    $page  = $_GET["page"];
+
                 } else {
-                    $page=1; 
-                    
+                    $page=1;
+
                 }
                 $start_from = ($page-1) * $results_per_page;
 
@@ -122,7 +122,7 @@ $typeResult2 = $collection->distinct("region");;
 
                     $i ++;
                 }
-                
+
                 $j = 0;
                 $selectedOptionCount2 = count($_GET['region']);
                 $selectedOption2 = "";
@@ -134,7 +134,7 @@ $typeResult2 = $collection->distinct("region");;
 
                     $j++;
                 }
-                
+
               $result = $collectionFind->find(array('Type' => $selectedOption,'region' => $selectedOption2),array('limit'=>$results_per_page, 'skip'=>$start_from));
             }
             if (! empty($result)) {
@@ -157,16 +157,18 @@ $typeResult2 = $collection->distinct("region");;
                                         echo '</td>';
                                     ?>
                                 <?php
-                                
+
                                     }
                                     ?>
-
+                                    <nav aria-label="Page navigation">
+                                      <ul class="pagination">
                                     <?php
 
                                     $countOfType = $collection->count(array('Type' => $selectedOption,'region' => $selectedOption2));
-                                    
-                                    $total_pages = ceil( $countOfType / $results_per_page); // calculate total pages with results
 
+                                    $total_pages = ceil( $countOfType / $results_per_page); // calculate total pages with results ?>
+                                    <li>
+                                      <?php
                                     for ($i=1; $i<=$total_pages; $i++) {  // print links for all pages
                                                 echo "<a href='advancedSearch.php?Type[]=". $_GET['Type'][0]. "&region[]=". $_GET['region'][0] ."&page=".$i."'";
                                                 if ($i==$page)  echo " class='curPage'";
@@ -175,22 +177,22 @@ $typeResult2 = $collection->distinct("region");;
 
 
                                     ?>
-
+                                  </li>                           
             </tbody>
         </table>
         </div>
         <?php
             }
-            ?>  
-        
+            ?>
+
     </div>
 </form>
 </div>
             </div>
             <div class="col-sm-1" sidenav>
-                
+
             </div>
-                 
+
         </div>
     </div>
 
