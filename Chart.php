@@ -1,5 +1,5 @@
-<?php 
-	include 'masterpage.php'; 
+<?php
+	include 'masterpage.php';
 	include 'process/process_basicSetup.php';
 	include 'process/process_chart.php';
 ?>
@@ -75,7 +75,7 @@
 		//Second chart
 		var chart2 = new CanvasJS.Chart("chartContainer2", {
 			theme: "dark2",
-			animationEnabled: true,  
+			animationEnabled: true,
 			title:{
 				text: "Number of incidents for past 24 hours"
 			},
@@ -120,7 +120,7 @@
 					{ x: 20, y: pastHrCount20 },
 					{ x: 21, y: pastHrCount21 },
 					{ x: 22, y: pastHrCount22 },
-					{ x: 23, y: pastHrCount23 }, 
+					{ x: 23, y: pastHrCount23 },
 					{ x: 24, y: pastHrCount24 }
 				]
 			}]
@@ -149,7 +149,24 @@
 	</script>
 </head>
 <body>
-	<div id="chartContainer1" style="height: 370px; max-width: 920px; margin: 0px auto; margin-top: 100px;"></div>
-	<div id="chartContainer2" style="height: 370px; max-width: 920px; margin: 0px auto; margin-top: 150px;"></div>
+	<div class="container-fluid bg-1">
+			 <div class="row content">
+					 <div class="col-sm-1 sidenav">
+
+					 </div>
+					 <div class="col-sm-10 mainscreen">
+
+							 <div class="maincontent">
+
+	<div id="chartContainer1" style="height: 370px; max-width: 920px; margin: 0px auto; margin-top: 100px;" class="text-center"></div>
+	<div id="chartContainer2" style="height: 370px; max-width: 920px; margin: 0px auto; margin-top: 150px;" class="text-center"></div>
+</div>
+</div>
+					</div>
+						</div>
+<div class="col-sm-1" sidenav>
+
+</div>
+
 </body>
 </html>
