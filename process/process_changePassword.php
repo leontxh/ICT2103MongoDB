@@ -43,10 +43,11 @@ $collection = $db->user;
                     echo "<p style=\"color:red;\">The old password that you have entered is not the same.</p>";
                     echo $oldpassword;
                     echo $cursorFind['password'];}
+            }
             else{
                 echo "<p style=\"color:red;\">Please make sure your new passwords are the same.</p>";
                 echo $newpassword;
-                echo $confirmpassword;}
+                echo $confirmpassword;
             // close connection
             }
         }
