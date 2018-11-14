@@ -47,7 +47,7 @@ $typeResult2 = $collection->distinct("region");;
 <body>
 <h1>Search Function for type & region</h1>
 <h2>Please select both option to filter</h2>
-<form method="POST" name="search" action="advancedSearch.php">
+<form method="GET" name="search" action="advancedSearch.php">
     <div id="demo-grid">
         <div class="search-box">
             <select id="Place" name="Type[]" multiple="multiple">
@@ -78,7 +78,7 @@ $typeResult2 = $collection->distinct("region");;
         </div>
 
             <?php
-            if (! empty($_POST['Type'])) {
+            if (! empty($_GET['Type'])) {
                 ?>
         
             
@@ -100,10 +100,22 @@ $typeResult2 = $collection->distinct("region");;
             <?php
                 $collectionFind = $db->traffic_incident;
                 $i = 0;
-                $selectedOptionCount = count($_POST['Type']);
+                $selectedOptionCount = count($_GET['Type']);
                 $selectedOption = "";
+
+                $results_per_page = 5;
+                if (isset($_GET["page"])) 
+                { 
+                    $page  = $_GET["page"]; 
+                    
+                } else {
+                    $page=1; 
+                    
+                }
+                $start_from = ($page-1) * $results_per_page;
+
                 while ($i < $selectedOptionCount) {
-                    $selectedOption = $selectedOption .$_POST['Type'][$i];
+                    $selectedOption = $selectedOption .$_GET['Type'][$i];
                     if ($i < $selectedOptionCount - 1) {
                         $selectedOption = $selectedOption . ", ";
                     }
@@ -112,10 +124,10 @@ $typeResult2 = $collection->distinct("region");;
                 }
                 
                 $j = 0;
-                $selectedOptionCount2 = count($_POST['region']);
+                $selectedOptionCount2 = count($_GET['region']);
                 $selectedOption2 = "";
                 while ($j < $selectedOptionCount2) {
-                    $selectedOption2 = $selectedOption2 .$_POST['region'][$j];
+                    $selectedOption2 = $selectedOption2 .$_GET['region'][$j];
                     if ($j < $selectedOptionCount2 - 1) {
                         $selectedOption2 = $selectedOption2 . ", ";
                     }
@@ -123,7 +135,7 @@ $typeResult2 = $collection->distinct("region");;
                     $j++;
                 }
                 
-              $result = $collectionFind->find(array('Type' => $selectedOption,'region' => $selectedOption2));
+              $result = $collectionFind->find(array('Type' => $selectedOption,'region' => $selectedOption2),array('limit'=>$results_per_page, 'skip'=>$start_from));
             }
             if (! empty($result)) {
                 foreach ($result as $doc) {
@@ -141,11 +153,27 @@ $typeResult2 = $collection->distinct("region");;
                                         echo ' ';
                                         echo '<a class="btn btn-primary" href="viewIncident.php?trafficID='.$doc['_id'].'">View</a>';
                                         echo ' ';
-                                       "</tr>";
+                                        echo '</td>';
+                                        echo '</td>';
                                     ?>
                                 <?php
                                 
                                     }
+                                    ?>
+
+                                    <?php
+
+                                    $countOfType = $collection->count(array('Type' => $selectedOption,'region' => $selectedOption2));
+                                    
+                                    $total_pages = ceil( $countOfType / $results_per_page); // calculate total pages with results
+
+                                    for ($i=1; $i<=$total_pages; $i++) {  // print links for all pages
+                                                echo "<a href='advancedSearch.php?Type[]=". $_GET['Type'][0]. "&region[]=". $_GET['region'][0] ."&page=".$i."'";
+                                                if ($i==$page)  echo " class='curPage'";
+                                                echo ">". $i ."</a> &nbsp;";
+                                    };
+
+
                                     ?>
 
             </tbody>
