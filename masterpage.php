@@ -1,10 +1,10 @@
  <?php 
-//    session_start(); 
-//    $id=$_SESSION['id'];
-//    if(!$_SESSION['id']){
-//        //header('Location: loginindex.php');
-//        echo $_SESSION['id'];
-//    }
+    session_start(); 
+    $id=$_SESSION['id'];
+    if(!$_SESSION['id']){
+        //header('Location: loginindex.php');
+        echo $_SESSION['id'];
+    }
     include 'process/process_basicSetup.php';
  ?>
 <!DOCTYPE html>
