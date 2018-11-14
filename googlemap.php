@@ -20,7 +20,7 @@ $cursor = $collection->find(array("status" => $status,"region" => array('$ne' =>
        * element that contains the map. */
       #map {
         height: 100%;
-         zoom: 1.5;
+
         
       }
       /* Optional: Makes the sample page fill the window. */
