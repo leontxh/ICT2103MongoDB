@@ -1,5 +1,5 @@
- <?php 
-    session_start(); 
+ <?php
+    session_start();
     $id=$_SESSION['id'];
     if(!$_SESSION['id']){
         //header('Location: loginindex.php');
@@ -19,9 +19,9 @@
     <body>
 
         <nav class="navbar navbar-style navbar-fixed-top" id="mNavbar">
-            
+
                 <div class="navbar-header">
-                    <a href="loginindex.php"><img class="logo" src="logo.png"></a>
+                    <img class="logo" src="logo.png">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#micon">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -36,10 +36,10 @@
                         <li><a href="chart.php">Dashboard</a></li>
                         <li><a href="process/process_phpLogout.php">Log Out</a></li>
                     </ul>
-             
+
                     </ul>
                 </div>
-            
+
             <script>
                 $(document).ready(function() {
                     var $navbar = $("#mNavbar");
@@ -60,14 +60,13 @@
                     }
                 });
             </script>
-            
+
         </nav>
 
- 
 
-        
+
+
 
     </body>
 
 </html>
-
