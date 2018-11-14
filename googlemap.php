@@ -47,7 +47,7 @@ $cursor = $collection->find(array("status" => $status,"region" => array('$ne' =>
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 1.3521, lng: 103.8198},
-          zoom: 11,
+          zoom: 12,
           disableDefaultUI: true
         });
 
