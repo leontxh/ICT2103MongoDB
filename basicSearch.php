@@ -44,7 +44,7 @@ $typeResult = $collection->distinct("Type");
                 <div class="maincontent">
                     
                     <h2>Please select a option to filter</h2>
-                    <form method="POST" name="search" action="basicSearch.php">
+                    <form method="GET" name="search" action="basicSearch.php">
                         <div id="demo-grid">
                             <div class="search-box">
                                 <select id="Place" name="Type[]" multiple="multiple">
@@ -64,7 +64,7 @@ $typeResult = $collection->distinct("Type");
                             </div>
 
                                 <?php
-                                if (! empty($_POST['Type'])) {
+                                if (! empty($_GET['Type'])) {
                                     ?>
 
 
@@ -87,12 +87,24 @@ $typeResult = $collection->distinct("Type");
                                    $collectionFind = $db->traffic_incident;
                                    
                                     $i = 0;
-                                    $selectedOptionCount = count($_POST['Type']);
-                                    
+                                    $selectedOptionCount = count($_GET['Type']);
                                     $selectedOption = "";
+
+                                    $results_per_page = 5;
+                                    if (isset($_GET["page"])) 
+                                    { 
+                                        $page  = $_GET["page"]; 
+                                        
+                                    } else {
+                                        $page=1; 
+                                        
+                                    }
+                                    $start_from = ($page-1) * $results_per_page;
+
+
                                     while ($i < $selectedOptionCount) {
                                         
-                                        $selectedOption = $selectedOption  . $_POST['Type'][$i];
+                                        $selectedOption = $selectedOption  . $_GET['Type'][$i];
                                         if ($i < $selectedOptionCount - 1) {
                                             $selectedOption = $selectedOption . ", ";
                                         }
@@ -126,6 +138,19 @@ $typeResult = $collection->distinct("Type");
                                 <?php
                                 
                                     }
+                                    ?>
+                                    <?php
+
+                                    $countOfType = $collection->find(array('Type' => $selectedOption));
+                                    $total_pages = ceil( $countOfType / $results_per_page); // calculate total pages with results
+
+                                    for ($i=1; $i<=$total_pages; $i++) {  // print links for all pages
+                                                echo "<a href='basicSearch.php?Type[]=". $_GET['Type'][0] ."&page=".$i."'";
+                                                if ($i==$page)  echo " class='curPage'";
+                                                echo ">". $i ."</a> &nbsp;";
+                                    };
+
+
                                     ?>
 
                                 </tbody>
