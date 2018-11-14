@@ -21,7 +21,7 @@ $cursor = $collection->find(array("status" => $status,"region" => array('$ne' =>
       #map {
         height: 100%;
 
-        
+
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
@@ -29,37 +29,39 @@ $cursor = $collection->find(array("status" => $status,"region" => array('$ne' =>
         margin: 0;
         padding: 0;
       }
-      
+
     </style>
   </head>
   <body>
-           
-      
+
+
       <div id="map">
            <script>
-        
+
     var locations = [
-     
+
     ];
-        
-        
+
+
       var map;
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 1.3521, lng: 103.8198},
-          zoom: 11
+          zoom: 11,
+          disableDefaultUI: true
         });
-        
-        
+
+
             var infowindow = new google.maps.InfoWindow();
 
     var marker, i;
 <?PHP foreach($cursor as $docx){ ?>
-    //for (i = 0; i < locations.length; i++) {  
+    //for (i = 0; i < locations.length; i++) {
 
       marker = new google.maps.Marker({
         position: new google.maps.LatLng(<?php echo $docx["Latitude"] ?>, <?php echo $docx["Longitude"] ?>),
-        map: map
+        map: map,
+        icon: 'images/obstacle.png'
       });
 
       google.maps.event.addListener(marker, 'click', (function(marker, i) {
@@ -69,13 +71,13 @@ $cursor = $collection->find(array("status" => $status,"region" => array('$ne' =>
         }
       })(marker, i));
 <?PHP } ?>
-        
+
       }//end init map
     </script>
-   
-         
+
+
       </div>
-   
+
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOyCLiYkNnw4CcfkQn38YGFqRyEZoRC6k&callback=initMap" async defer>
                     </script>
   </body>

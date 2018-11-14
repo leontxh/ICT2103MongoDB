@@ -2,13 +2,13 @@
     include 'process/process_basicSetup.php';
     $loginErr = "";
 ?>
-<?php include ('process/process_register.php') ?>  
+<?php include ('process/process_register.php') ?>
 <?php include ('process/process_login.php') ?>
 
 <html lang="en">
 <head>
 
-        
+
         <title>SLTU</title>
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="stylesheet" type="text/css" href="css/logintest.css">
@@ -39,7 +39,7 @@
 </head>
 <body>
         <nav class="navbar navbar-style navbar-fixed-top" id="mNavbar">
-            
+
                 <div class="navbar-header">
                     <a href="loginindex.php"><img class="logo" src="logo.png"></a>
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#micon">
@@ -53,13 +53,13 @@
                      <li><a href="loginindex.php">Home</a></li>
 <!--                        <li><a href="traffictable.php">Traffic Incident</a></li>
                         <li><a href="googlemap.php">Map</a></li>-->
-                        
+
 <!--                        <li><a href="process/process_phpLogout.php">Log Out</a></li>-->
                     </ul>
-             
+
                     </ul>
                 </div>
-            
+
             <script>
                 $(document).ready(function() {
                     var $navbar = $("#mNavbar");
@@ -80,21 +80,21 @@
                     }
                 });
             </script>
-            
+
         </nav>
     <div class="container-fluid bg-1">
         <div class="row content">
             <div class="col-sm-1 sidenav">
-                
+
             </div>
             <div class="col-sm-10 mainscreen">
-     
+
                 <div class="maincontent">
-                    
-                   
-                
+
+
+
                  <div class="loginui">
-                        
+
                         <div class="loginui-container">
                             <div class="row">
                                 <div class="col-md-6 col-md-offset-3">
@@ -113,7 +113,7 @@
                                         <div class="panel-body">
                                             <div class="row">
                                                 <div class="col-lg-12">
-                                       
+
                                                     <form name="myForm" id="login-form" method="post" style="display: block;" onsubmit="return signValidate()">
                                                         <div class="form-group">
                                                             <input type="text" name="loginusername" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
@@ -124,8 +124,8 @@
                                                         <?php echo $loginErr; ?>
                                                         <div class="form-group">
                                                             <div class="row">
-                                                            <div class="col-sm-6 col-sm-offset-3">
-                                                                <button id="submit" name="login" type="submit" class="form-control btn btn-login">Login</button>
+                                                            <div class="text-center">
+                                                                <button id="submit" name="login" type="submit" class="btn btn-login btn-lg">Login</button>
                                                             </div>
                                                             </div>
                                                         </div>
@@ -133,7 +133,7 @@
                                                     </form>
 
                                                     <form id="register-form" method="post" role="form" style="display: none;" onsubmit="return validateSignup()">
-                                                     
+
                                                         <div class="form-group">
                                                             <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Please enter username with at least 5 characters." value="">
                                                             <?php echo $nameErr; ?>
@@ -152,8 +152,8 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="row">
-                                                                <div class="col-sm-6 col-sm-offset-3">
-                                                                    <button id="submit" type="submit" name="submit" class="form-control btn btn-register">Register Now</button>                                               
+                                                                <div class="text-center">
+                                                                    <button id="submit" type="submit" name="submit" class="btn btn-register btn-lg">Register Now</button>                                               
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -165,15 +165,15 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
-                    
+
                 </div>
                 </div>
             <div class="col-sm-1" sidenav>
-                
+
             </div>
-                 
+
         </div>
     </div>
 </body>
