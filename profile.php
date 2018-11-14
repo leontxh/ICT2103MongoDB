@@ -1,7 +1,6 @@
 <?php 
-    include 'process/process_profile.php';
+    include 'masterpage.php';  
  ?>
-
 <html>
     <head>
        

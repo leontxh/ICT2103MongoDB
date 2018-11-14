@@ -90,7 +90,7 @@ $typeResult = $collection->distinct("Type");
                                     $selectedOptionCount = count($_GET['Type']);
                                     $selectedOption = "";
 
-                                    $results_per_page = 5;
+                                    $results_per_page = 10;
                                     if (isset($_GET["page"])) 
                                     { 
                                         $page  = $_GET["page"]; 
@@ -114,7 +114,7 @@ $typeResult = $collection->distinct("Type");
 
 
 
-                                    $result = $collectionFind->find(array(), array('Type' => $selectedOption, 'limit'=>$results_per_page, 'skip'=>$start_from));
+                                    $result = $collectionFind->find(array('Type' => $selectedOption),array('limit'=>$results_per_page, 'skip'=>$start_from));
                                     
                                 }
                             if (!empty($result)) {
@@ -144,7 +144,8 @@ $typeResult = $collection->distinct("Type");
                                     ?>
                                     <?php
 
-                                    $countOfType = $collection->find(array('Type' => $selectedOption));
+                                    $countOfType = $collection->count(array('Type' => $selectedOption));
+                                    
                                     $total_pages = ceil( $countOfType / $results_per_page); // calculate total pages with results
 
                                     for ($i=1; $i<=$total_pages; $i++) {  // print links for all pages

@@ -1,4 +1,4 @@
-<?php // include 'masterpage.php'; ?>
+<?php include 'masterpage.php'; ?>
 <!DOCTYPE HTML>
 <?php
    	include 'process/process_basicSetup.php';
@@ -8,58 +8,214 @@
 //    if (!$$collection) {
 //            die ('Failed to connect to MongoDB');	
 //    }
-    $cursor = $collection->find(array(), array("region" => 1));
-    //$sql = "SELECT region FROM Traffic_incident";
-    //$result = mysqli_query($conn, $sql);
-    //$numOfResult = mysqli_num_rows($result);
+    $cursor = $collection->find(array(), array("region" => 1,"message"=>1));
     $regionArray = ["North", "North East", "West", "East", "Central"];
     $numPerRegion = [0, 0, 0, 0, 0];
-    $date = 0;
- 
-        foreach ($cursor as $doc){
-//    	while($row=$doc){
-    		for ($i = 0; $i < sizeof($regionArray); $i++){
-    			if ($doc['region'] == $regionArray[$i]){
-    				$numPerRegion[$i]++;
-    				break;
-    			}
-    		}
-    	}
-//        }
-    
-     $cursor2 = $collection->find(array(), array("region" => 1,"message"=>1));
-    //$sql2 = "SELECT region, message FROM Traffic_incident";
-    //$result2 = mysqli_query($conn, $sql2);
     $past24HrArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    $past24HrTime = array();
-    $currentHr = date("H");
+    $totalIncident = 0;
+    $monthsWithPrevious31Days = [1, 2, 4, 6, 8, 9, 11];
+    $monthsWithPrevious30Days = [5, 7, 10, 12];
+    $currentMonth = date("m");
+    $currentDate = date("d");
     $startingDay = date("d");
-    $startingHr =  $currentHr - 24;
+    $startingHr =  date("H") - 23;
 
     if ($startingHr < 0){
     	$startingDay -= 1;
-    	$startingHr = 24 + $startingHr;
+    	$startingHr += 24;
     }
-        
-   	if($cursor2 <> null){
-	    foreach ($cursor2 as $doc2)
+    if ($startingDay < 1){
+    	if ($currentMonth == 3)
+    		$startingDay = 28;
+    	else{
+    		for ($k = 0; $k < sizeof($monthsWithPrevious31Days); $k++){
+	    		if ($currentMonth == $monthsWithPrevious31Days[$k]){
+	    			$startingDay = 31;
+	    			break;
+	    		}
+    			else
+    				$startingDay = 30;
+    		}
+    	}	
+    }
+	    foreach($cursor as $row){
+	    	if (((int)substr($row['region'], 1, 2)) > 9){
+	    		$monthStringStart = 4;
+	    		$timeStringStart = 7;
+	    	}
+	    	else{
+	    		$monthStringStart = 3;
+	    		$timeStringStart = 6;
+    		}
+	    	if (((int)substr($row['region'], $monthStringStart, 2)) > 9){
+	    		$timeStringLength = 2;
+	    	}
+	    	else{
+	    		$timeStringLength = 1;
+	    		$timeStringStart -= 1;
+	    	}
 	    	for ($j = 0; $j < sizeof($past24HrArray); $j++){
 	    		$currentHrIncrement = $startingHr + $j;
-	    		if ($currentHrIncrement > 23){
+	    		if ($currentHrIncrement > 23)
 	    			$currentHrIncrement -= 24;
-	    		}
-	    		if (sizeof($past24HrTime) < 24){		
-	    			array_push($past24HrTime, $currentHrIncrement);
-	    		}
-	    		if ((int)substr($doc2['region'], 1, 2) >= $startingDay){
-					if ((int)substr($row2['region'], 7, 2) == $currentHrIncrement){
-		    			$past24HrArray[$j]++;
-		    			break;
+	    		if ($startingDay == 28 && $currentMonth == 3)
+	    			$currentDate = 1;
+	    		else{
+		    		for ($k = 0; $k < sizeof($monthsWithPrevious31Days); $k++){
+		    			if ($startingDay == 31 && $currentMonth == $monthsWithPrevious31Days[$k]){
+		    				$currentDate = 1;
+		    				break;
+	    				}
+	    			}	
+	    			for ($k = 0; $k < sizeof($monthsWithPrevious31Days); $k++){
+	    				if ($startingDay == 30 && $currentMonth == $monthsWithPrevious30Days[$k]){
+	    					$currentDate = 1;
+		    				break;
+		    			}
 	    			}
 	    		}
-	    		$currentHrIncrement = $startingHr;
+	    		if ($startingDay == 28 || $startingDay == 30 || $startingDay == 31){
+	    			if ((int)substr($row[1], 1, 2) == $startingDay && (int)substr($row['region'], $monthStringStart, $timeStringLength) == ($currentMonth - 1) && ((int)substr($row[1], $timeStringStart, $timeStringLength) >= $startingHr) && ((int)substr($row[1], $timeStringStart, $timeStringLength) == $currentHrIncrement)){
+		    			$past24HrArray[$j]++;
+			    		$totalIncident++;
+			    		
+			    		for ($i = 0; $i < sizeof($regionArray); $i++){
+			    			if ($row[0] == $regionArray[$i]){
+			    				$numPerRegion[$i]++;
+			    				break;
+			    			}
+			    		}
+		    		}
+	    		}
+	    		if ((int)substr($row[1], $monthStringStart, 2) == $currentMonth){
+	    			if (((int)substr($row[1], 1, 2) == $currentDate) && ((int)substr($row['region'], $timeStringStart, $timeStringLength) == $currentHrIncrement)){
+	    				$past24HrArray[$j]++;
+		    			$totalIncident++;
+		    			for ($i = 0; $i < sizeof($regionArray); $i++){
+			    			if ($row[0] == $regionArray[$i]){
+			    				$numPerRegion[$i]++;
+			    				break;
+    						}
+    					}
+	    			}
+	    			else if (((int)substr($row[1], 1, 2) == $startingDay) && ((int)substr($row['region'], $timeStringStart, $timeStringLength) >= $startingHr) && ((int)substr($row[1], $timeStringStart, $timeStringLength) == $currentHrIncrement)){
+						$past24HrArray[$j]++;
+			    		$totalIncident++;
+			    		for ($i = 0; $i < sizeof($regionArray); $i++){
+			    			if ($row[0] == $regionArray[$i]){
+			    				$numPerRegion[$i]++;
+			    				break;
+			    			}
+			    		}
+			    	}
+	    		}
 	    	}
 	    }
+    
+    $averageIncident = $totalIncident/24; $regionArray = ["North", "North East", "West", "East", "Central"];
+    $numPerRegion = [0, 0, 0, 0, 0];
+    $past24HrArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    $totalIncident = 0;
+    $monthsWithPrevious31Days = [1, 2, 4, 6, 8, 9, 11];
+    $monthsWithPrevious30Days = [5, 7, 10, 12];
+    $currentMonth = date("m");
+    $currentDate = date("d");
+    $startingDay = date("d");
+    $startingHr =  date("H") - 23;
+
+    if ($startingHr < 0){
+    	$startingDay -= 1;
+    	$startingHr += 24;
+    }
+    if ($startingDay < 1){
+    	if ($currentMonth == 3)
+    		$startingDay = 28;
+    	else{
+    		for ($k = 0; $k < sizeof($monthsWithPrevious31Days); $k++){
+	    		if ($currentMonth == $monthsWithPrevious31Days[$k]){
+	    			$startingDay = 31;
+	    			break;
+	    		}
+    			else
+    				$startingDay = 30;
+    		}
+    	}	
+    }
+   	foreach ($cursor as $row ){
+	    	if (((int)substr($row['message'], 1, 2)) > 9){
+	    		$monthStringStart = 4;
+	    		$timeStringStart = 7;
+	    	}
+	    	else{
+	    		$monthStringStart = 3;
+	    		$timeStringStart = 6;
+    		}
+	    	if (((int)substr($row[1], $monthStringStart, 2)) > 9){
+	    		$timeStringLength = 2;
+	    	}
+	    	else{
+	    		$timeStringLength = 1;
+	    		$timeStringStart -= 1;
+	    	}
+	    	for ($j = 0; $j < sizeof($past24HrArray); $j++){
+	    		$currentHrIncrement = $startingHr + $j;
+	    		if ($currentHrIncrement > 23)
+	    			$currentHrIncrement -= 24;
+	    		if ($startingDay == 28 && $currentMonth == 3)
+	    			$currentDate = 1;
+	    		else{
+		    		for ($k = 0; $k < sizeof($monthsWithPrevious31Days); $k++){
+		    			if ($startingDay == 31 && $currentMonth == $monthsWithPrevious31Days[$k]){
+		    				$currentDate = 1;
+		    				break;
+	    				}
+	    			}	
+	    			for ($k = 0; $k < sizeof($monthsWithPrevious31Days); $k++){
+	    				if ($startingDay == 30 && $currentMonth == $monthsWithPrevious30Days[$k]){
+	    					$currentDate = 1;
+		    				break;
+		    			}
+	    			}
+	    		}
+	    		if ($startingDay == 28 || $startingDay == 30 || $startingDay == 31){
+	    			if ((int)substr($row[1], 1, 2) == $startingDay && (int)substr($row[1], $monthStringStart, $timeStringLength) == ($currentMonth - 1) && ((int)substr($row[1], $timeStringStart, $timeStringLength) >= $startingHr) && ((int)substr($row[1], $timeStringStart, $timeStringLength) == $currentHrIncrement)){
+		    			$past24HrArray[$j]++;
+			    		$totalIncident++;
+			    		
+			    		for ($i = 0; $i < sizeof($regionArray); $i++){
+			    			if ($row[0] == $regionArray[$i]){
+			    				$numPerRegion[$i]++;
+			    				break;
+			    			}
+			    		}
+		    		}
+	    		}
+	    		if ((int)substr($row[1], $monthStringStart, 2) == $currentMonth){
+	    			if (((int)substr($row[1], 1, 2) == $currentDate) && ((int)substr($row[1], $timeStringStart, $timeStringLength) == $currentHrIncrement)){
+	    				$past24HrArray[$j]++;
+		    			$totalIncident++;
+		    			for ($i = 0; $i < sizeof($regionArray); $i++){
+			    			if ($row[0] == $regionArray[$i]){
+			    				$numPerRegion[$i]++;
+			    				break;
+    						}
+    					}
+	    			}
+	    			else if (((int)substr($row[1], 1, 2) == $startingDay) && ((int)substr($row[1], $timeStringStart, $timeStringLength) >= $startingHr) && ((int)substr($row[1], $timeStringStart, $timeStringLength) == $currentHrIncrement)){
+						$past24HrArray[$j]++;
+			    		$totalIncident++;
+			    		for ($i = 0; $i < sizeof($regionArray); $i++){
+			    			if ($row[0] == $regionArray[$i]){
+			    				$numPerRegion[$i]++;
+			    				break;
+			    			}
+			    		}
+			    	}
+	    		}
+	    	}
+	    }
+    }
+    $averageIncident = $totalIncident/24;
     
 ?>
 <html>

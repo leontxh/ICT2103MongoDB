@@ -9,7 +9,7 @@
                 }
             }
                     // Check connection
-                    if($conn === false)
+                    if($db === false)
                     {
                         die("ERROR: Could not connect. ");
                     }
@@ -22,14 +22,14 @@
                         
                         $collection = $db->user;
 
-                        $loginInfo = array("username"  => $loginusername,
-                                "password" => $loginpassword);
+                        $loginInfo = array("username" => $loginusername,
+                                           "password" => $loginpassword);
                         $cursorFind = $collection->findOne($loginInfo);
 
                         if (!empty($cursorFind)){
-                          session_start();
-                            $_SESSION['id'] = $fetch['userID'];
-                            $_SESSION['username'] = $fetch['username'];
+                            session_start();
+                            $_SESSION['id'] = $cursorFind['userID'];
+                            $_SESSION['username'] = $cursorFind['username'];
                             header('Location: profile.php');
                         }
                          else 
