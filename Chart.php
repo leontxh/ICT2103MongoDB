@@ -50,7 +50,7 @@
 			exportEnabled: true,
 			animationEnabled: true,
 			title:{
-				text: "Number of accidents from each region"
+				text: "Number of incidents per region"
 			},
 			legend:{
 				cursor: "pointer",
@@ -158,8 +158,11 @@
 
 							 <div class="maincontent">
 
-	<div id="chartContainer1" style="height: 370px; max-width: 920px; margin: 0px auto; margin-top: 100px;" class="text-center"></div>
-	<div id="chartContainer2" style="height: 370px; max-width: 920px; margin: 0px auto; margin-top: 150px;" class="text-center"></div>
+								 <header>
+							     	<h1 style="auto; margin-top: 80px; text-align: center;">Incident statistics for the past 24 hours</h1>
+							   	</header>
+							 	<div id="chartContainer1" style="height: 370px; max-width: 920px; margin: 0px auto; margin-top: 50px;"></div>
+							 	<div id="chartContainer2" style="height: 370px; max-width: 920px; margin: 0px auto; margin-top: 50px;"></div>
 </div>
 </div>
 					</div>
