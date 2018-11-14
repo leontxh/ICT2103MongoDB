@@ -6,7 +6,7 @@
 
 .navbar-style {
     text-transform: uppercase;
-    background-color: #008B8B;
+      background-color: #008B8B;
 }
 
 .logo {
@@ -25,7 +25,7 @@ li a {
 .navbar-nav li a:hover, .navbar-nav li.active a {
     color: black;
     font-weight: bold;
-    background-color: #dc6f6f !important;
+    background-color: #4fb1b4 !important;
 }
 
 .navbar-right{
