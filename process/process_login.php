@@ -11,7 +11,7 @@
                     // Check connection
                     if($conn === false)
                     {
-                        die("ERROR: Could not connect. " . mysqli_connect_error());
+                        die("ERROR: Could not connect. ");
                     }
                     if ($loginverify == 1){
                     if(isset($_POST['login']))
