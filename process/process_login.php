@@ -22,9 +22,8 @@
                         
                         $collection = $db->user;
 
-                        $loginInfo = array("username"  => $username,
-                                "password" => $password,
-                                "email" => $email);
+                        $loginInfo = array("username"  => $loginusername,
+                                "password" => $loginpassword);
                         $cursorFind = $collection->findOne($loginInfo);
 
                         if (!empty($cursorFind)){
