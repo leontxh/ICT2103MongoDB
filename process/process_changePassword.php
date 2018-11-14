@@ -15,13 +15,13 @@ include 'process_basicSetup.php';
 $conn = new mysqli($servername, $username, $password,$dbname);
 
     if (isset($_POST['oldpassword'])) {
-        $oldpassword = mysqli_real_escape_string($conn, md5($_REQUEST['oldpassword']));
+        $oldpassword = md5($_REQUEST['oldpassword']);
     }
     if (isset($_POST['newpassword'])) {
-        $newpassword = mysqli_real_escape_string($conn, md5($_REQUEST['newpassword']));
+        $newpassword = md5($_REQUEST['newpassword']);
     }
     if (isset($_POST['confirmpassword'])) {
-        $confirmpassword = mysqli_real_escape_string($conn, md5($_REQUEST['confirmpassword']));
+        $confirmpassword = md5($_REQUEST['confirmpassword']);
     }    
     if(isset($_POST['change']))
     {   if ($verify == 1)
@@ -47,16 +47,10 @@ $conn = new mysqli($servername, $username, $password,$dbname);
                             }
                             else
                             {
+                                $collection = $db->user;
+                                $updateStatus = $collection -> updateOne(array("userID" => $_SESSION['id']), array('$set' => array("password" => $newpassword)));
                                 $updateSql = "UPDATE user SET password = '$newpassword' WHERE userID = ".$_SESSION['id'];
-                                if(mysqli_query($conn, $updateSql)){
-                                      echo "<p style=\"color:green;\">Password updated successfully.</p>";
-                                    
-                                }
-                                else
-                                {
-                                     alert("Update not successful");
-                                       echo "<p style=\"color:red;\">Update not successful</p>";
-                                }
+                                echo "<p style=\"color:green;\">Password updated successfully.</p>";
                             }
                         }
                         else
