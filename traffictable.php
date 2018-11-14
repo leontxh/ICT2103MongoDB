@@ -11,7 +11,7 @@ if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
 $start_from = ($page-1) * $results_per_page;
 $collection = $db->traffic_incident;
 //$cursor = $collection->find(['limit'=>$start_from]);
-$cursor = $collection->find();
+$cursor = $collection->find(array(), array('limit'=>$results_per_page, 'skip'=>$start_from));
 
 
 //session_start();
@@ -109,7 +109,6 @@ $cursor = $collection->find();
                     //$total = count(var_dump($cursorFind));
                     //$result = $conn->query($sql);
                     //$row = $result->fetch_assoc();
-                    echo $cursorFind;
                     $total_pages = ceil( $cursorFind / $results_per_page); // calculate total pages with results
 
                     for ($i=1; $i<=$total_pages; $i++) {  // print links for all pages
