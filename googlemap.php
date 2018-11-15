@@ -91,7 +91,7 @@ features.forEach(function(feature) {
   });
   google.maps.event.addListener(marker, 'click', (function(marker, i) {
     return function() {
-      infowindow.setContent("<?php echo $docx["Message"] ?>");
+      infowindow.setContent("<?php echo "<p style='font-size:25px; font-weight: bolder'>" ?> <?php echo $docx["Type"] ?> <?php echo "</p>" ?><?php echo $docx["Message"] ?>");
       infowindow.open(map, marker);
     }
   })(marker, i));
