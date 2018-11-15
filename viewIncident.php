@@ -167,10 +167,12 @@
                         </div>
                         </div>
 
-
-                        <div class="form-actions">
-                            <a href="javascript:history.go(-1)" title="Return to the previous page">&laquo; Go back</a>
-                        </div>
+                        <br>
+                          <div class="form-actions">
+                            <form>
+                              
+                              <input type="button" class="btn btn-warning" onclick="location.href='traffictable.php'" value="&laquo; Go back">
+                            </form>
                         </div>
                                     </div>
                 </div>
