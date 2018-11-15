@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>SLTU</title>
+    <title>Simple Map</title>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <?php
@@ -52,51 +52,26 @@ $cursor = $collection->find(array("status" => $status,"region" => array('$ne' =>
         });
 
 
-        var infowindow = new google.maps.InfoWindow();
-        var icons = {
-          Accident: {
-            icon: 'images/road.png'
-          },
-          "Vehicle breakdown": {
-            icon: 'images/vehicle.png'
-          },
-          "Heavy Traffic": {
-            icon: 'images/Heavy.png'
-          },
-          Obstacle: {
-            icon: 'images/obstacle.png'
-          },
-          Roadwork: {
-            icon: 'images/major.png'
-          },
-          "Road Block": {
-            icon: 'images/block.png'
-          }
-        };
-        <?PHP foreach($cursor as $docx){ ?>
+            var infowindow = new google.maps.InfoWindow();
+
 var marker, i;
-var features = [
-  {
-    position: new google.maps.LatLng(<?php echo $docx["Latitude"] ?>, <?php echo $docx["Longitude"] ?>),
-    type: '<?php echo $docx["Type"] ?>'
-  }
-];
 
-// Create markers
-features.forEach(function(feature) {
-  var marker = new google.maps.Marker({
-    position: feature.position,
-    icon: icons[feature.type].icon,
-    map: map
-  });
-  google.maps.event.addListener(marker, 'click', (function(marker, i) {
-    return function() {
-      infowindow.setContent("<?php echo $docx["Message"] ?>");
-      infowindow.open(map, marker);
-    }
-  })(marker, i));
-});
 
+<?PHP foreach($cursor as $docx){ ?>
+    //for (i = 0; i < locations.length; i++) {
+
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(<?php echo $docx["Latitude"] ?>, <?php echo $docx["Longitude"] ?>),
+        map: map,
+        icon: 'images/obstacle.png'
+      });
+
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent("<?php echo $docx["Message"] ?>");
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
 <?PHP } ?>
 
       }//end init map
