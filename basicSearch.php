@@ -58,8 +58,10 @@ $typeResult = $collection->distinct("Type");
                                         ?>
                                 </select>
                                 <br> <br>
-                                <button id="Filter">Search</button>
-                                <a href="traffictable.php">Back</a>
+                                <button id="Filter" class="btn btn-success">Search</button>
+                                <form>
+                                  <input type="button" class="btn btn-warning" onclick="location.href='traffictable.php'" value="&laquo; Go back">
+                                </form>
 
                             </div>
 
