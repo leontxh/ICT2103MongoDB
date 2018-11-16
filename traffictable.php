@@ -16,7 +16,7 @@ $cursor = $collection->find(array('date'=>$date), array('limit'=>$results_per_pa
 
 session_start();
 if(!isset($_SESSION['username'])){ //if login in session is not set
-   header("Location: loginPage.php");
+   header("Location: loginindex.php");
 }
 
 

@@ -14,7 +14,7 @@ $typeResult2 = $collection->distinct("region");;
 
 session_start();
 if(!isset($_SESSION['username'])){ //if login in session is not set
-    header("Location: loginPage.php");
+    header("Location: loginindex.php");
 
 }
 $date = new MongoDB\BSON\UTCDateTime((new DateTime('today'))->getTimestamp()*1000);
