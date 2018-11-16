@@ -16,7 +16,8 @@
                 <div class="maincontent">
                     <div class="col-md-6"  >
                         <h1 class="username">
-                            <?php  echo $_SESSION['username']?>
+                            <?php echo "Welcome ";
+                             echo $_SESSION['username']; ?>
                         </h1>
 
                         <div class="topSection">
