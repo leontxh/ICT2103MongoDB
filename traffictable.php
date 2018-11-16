@@ -6,18 +6,18 @@ include 'process/process_basicSetup.php';
 
 $results_per_page = 15;
 
-
+$date = new MongoDB\BSON\UTCDateTime((new DateTime('today'))->getTimestamp()*1000);
 if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
 $start_from = ($page-1) * $results_per_page;
 $collection = $db->traffic_incident;
 //$cursor = $collection->find(['limit'=>$start_from]);
-$cursor = $collection->find(array(), array('limit'=>$results_per_page, 'skip'=>$start_from),(array('Message'=>-1)));
+$cursor = $collection->find(array('date'=>$date), array('limit'=>$results_per_page, 'skip'=>$start_from),(array('Message'=>-1)));
 
 
-//session_start();
-//if(!isset($_SESSION['username'])){ //if login in session is not set
-//   header("Location: loginPage.php");
-//}
+session_start();
+if(!isset($_SESSION['username'])){ //if login in session is not set
+   header("Location: loginPage.php");
+}
 
 
 ?>
@@ -108,7 +108,8 @@ $cursor = $collection->find(array(), array('limit'=>$results_per_page, 'skip'=>$
 
                           //$sql = "SELECT COUNT(trafficID) AS total FROM traffic_incident";
                           //$cursorFind = $collection->find(array("_id" => (new MongoDB\BSON\ObjectID())));
-                          $cursorFind = $collection->count();
+                          //s$timeDate = array('date' => $date);
+                          $cursorFind = $collection->count(array('date' => $date));
                           //$total = count(var_dump($cursorFind));
                           //$result = $conn->query($sql);
                           //$row = $result->fetch_assoc();

@@ -12,11 +12,13 @@ $collection = $db->traffic_incident;
 $typeResult = $collection->distinct("Type");
 $typeResult2 = $collection->distinct("region");;
 
-//session_start();
-//if(!isset($_SESSION['username'])){ //if login in session is not set
-//    header("Location: loginPage.php");
-//
-//}
+session_start();
+if(!isset($_SESSION['username'])){ //if login in session is not set
+    header("Location: loginPage.php");
+
+}
+$date = new MongoDB\BSON\UTCDateTime((new DateTime('today'))->getTimestamp()*1000);
+
 ?>
 <head>
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -137,7 +139,7 @@ $typeResult2 = $collection->distinct("region");;
                     $j++;
                 }
 
-              $result = $collectionFind->find(array('Type' => $selectedOption,'region' => $selectedOption2),array('limit'=>$results_per_page, 'skip'=>$start_from));
+              $result = $collectionFind->find(array('Type' => $selectedOption,'region' => $selectedOption2,'date'=>$date),array('limit'=>$results_per_page, 'skip'=>$start_from));
             }
             if (! empty($result)) {
                 foreach ($result as $doc) {
@@ -166,7 +168,7 @@ $typeResult2 = $collection->distinct("region");;
                                       <ul class="pagination">
                                     <?php
 
-                                    $countOfType = $collection->count(array('Type' => $selectedOption,'region' => $selectedOption2));
+                                    $countOfType = $collection->count(array('Type' => $selectedOption,'region' => $selectedOption2,'date'=>$date));
 
                                     $total_pages = ceil( $countOfType / $results_per_page); // calculate total pages with results ?>
                                     <li>

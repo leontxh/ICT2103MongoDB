@@ -9,12 +9,12 @@ include 'masterpage.php';
 include "process/process_basicSetup.php";
 $collection = $db->traffic_incident;
 $typeResult = $collection->distinct("Type");
-
+//
 //session_start();
-//if(!isset($_SESSION['username'])){ //if login in session is not set
-//    header("Location: loginPage.php");
-//}
-
+if(!isset($_SESSION['username'])){ //if login in session is not set
+    header("Location: loginindex.php");
+}
+$date = new MongoDB\BSON\UTCDateTime((new DateTime('today'))->getTimestamp()*1000);
 ?>
 <head>
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -116,7 +116,7 @@ $typeResult = $collection->distinct("Type");
 
 
 
-                                    $result = $collectionFind->find(array('Type' => $selectedOption),array('limit'=>$results_per_page, 'skip'=>$start_from));
+                                    $result = $collectionFind->find(array('Type' => $selectedOption,'date'=>$date),array('limit'=>$results_per_page, 'skip'=>$start_from));
 
                                 }
                             if (!empty($result)) {
@@ -149,7 +149,7 @@ $typeResult = $collection->distinct("Type");
                                       <ul class="pagination">
                                     <?php
 
-                                    $countOfType = $collection->count(array('Type' => $selectedOption));
+                                    $countOfType = $collection->count(array('Type' => $selectedOption,'date'=>$date));
 
                                     $total_pages = ceil( $countOfType / $results_per_page); // calculate total pages with results
                                     for ($i=1; $i<=$total_pages; $i++) {  // print links for all pages ?>
