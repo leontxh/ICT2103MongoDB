@@ -71,6 +71,9 @@ $cursor = $collection->find(array("status" => $status,"region" => array('$ne' =>
           },
           "Road Block": {
             icon: 'images/block.png'
+          },
+          "Unattended Vehicle": {
+            icon: 'images/obstacle.png'
           }
         };
         <?PHP foreach($cursor as $docx){ ?>
