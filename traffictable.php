@@ -11,7 +11,7 @@ if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
 $start_from = ($page-1) * $results_per_page;
 $collection = $db->traffic_incident;
 //$cursor = $collection->find(['limit'=>$start_from]);
-$cursor = $collection->find(array(), array('limit'=>$results_per_page, 'skip'=>$start_from));
+$cursor = $collection->find(array(), array('limit'=>$results_per_page, 'skip'=>$start_from),(array('Message'=>-1)));
 
 
 //session_start();
