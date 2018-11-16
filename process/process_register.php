@@ -63,7 +63,7 @@
                                 "password" => $password,
                                 "email" => $email);
                 $collection->insertOne($insert);
-                header("Location: SuccessfulAccount.php");
+                header("Location: successfulAccount.php");
             }
         }
     }
