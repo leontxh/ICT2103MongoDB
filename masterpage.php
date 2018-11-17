@@ -33,7 +33,7 @@
                         <li><a href="profile.php">Home</a></li>
                         <li><a href="traffictable.php">Traffic Incident</a></li>
                         <li><a href="googlemap.php">Map</a></li>
-                        <li><a href="chart.php">Dashboard</a></li>
+                        <li><a href="Chart.php">Dashboard</a></li>
                         <li><a href="process/process_phpLogout.php">Log Out</a></li>
                     </ul>
 
