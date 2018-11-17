@@ -84,12 +84,12 @@ if(!isset($_SESSION['username'])){ //if login in session is not set
                      foreach($cursor as $doc)
                      {
                      $type = $doc['Type'];
-                     echo"<td>".$doc['Type']."</td>";
-                     echo"<td>".$doc['Longitude']."</td>";
-                     echo"<td>".$doc['Latitude']."</td>";
-                     echo"<td>".$doc['Message']."</td>";
-                     echo"<td>".$doc['status']."</td>";
-                     echo"<td>".$doc['region']."</td>";
+                     echo "<td>" . $doc['Type'] . "</td>";
+                     echo "<td>".$doc['Longitude']."</td>";
+                     echo "<td>".$doc['Latitude']."</td>";
+                     echo "<td>".$doc['Message']."</td>";
+                     echo "<td>".$doc['status']."</td>";
+                     echo "<td>".$doc['region']."</td>";
                      echo '<td width=250>';
                      echo ' ';
                      echo '<a class="btn btn-primary" href="viewIncident.php?trafficID='.$doc['_id'].'">View</a>';
