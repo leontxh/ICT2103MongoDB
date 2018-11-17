@@ -7,10 +7,11 @@
     <meta charset="utf-8">
     <?php
 include 'process/process_basicSetup.php';
+$date = new MongoDB\BSON\UTCDateTime((new DateTime('today'))->getTimestamp()*1000);
 $status='Unresolved';
 $region = 'None';
 $collection = $db->traffic_incident;
-$cursor = $collection->find(array("status" => $status,"region" => array('$ne' => $region)));
+$cursor = $collection->find(array('date'=>$date), array("status" => $status,"region" => array('$ne' => $region)));
 
 
 
