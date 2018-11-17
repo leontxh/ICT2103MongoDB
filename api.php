@@ -1,8 +1,8 @@
 <?php
-        include "process/process_basicSetup.php";
-	include "process/regionSorting.php";
-	if (!count(debug_backtrace()))
-       $ch = curl_init();
+       include "process/process_basicSetup.php";
+       include "process/regionSorting.php";
+       if (!count(debug_backtrace()))
+            $ch = curl_init();
        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
        curl_setopt($ch, CURLOPT_URL,  'http://datamall2.mytransport.sg/ltaodataservice/TrafficIncidents');
@@ -32,23 +32,23 @@
 	$status = 'Unresolved';
 
 
-        $date = new MongoDB\BSON\UTCDateTime((new DateTime('today'))->getTimestamp()*1000);
-
+        //$date = new MongoDB\BSON\UTCDateTime((new DateTime('today'))->getTimestamp()*1000);
+        $date = 1542409200000;
 	for ($i=0;$i<count($newArray[0]);$i++){
 
-		$region = sortRegion($newArray[0][$i]["Longitude"], $newArray[0][$i]["Latitude"]);
-                $checkExisting= array("Type" => $newArray[0][$i]["Type"], "Longitude" => $newArray[0][$i]["Longitude"],
-                                        "Latitude"=>$newArray[0][$i]["Latitude"], "Message" => $newArray[0][$i]["Message"],
-                                        "status" => $status,"region"=>$region,"date"=>$date);
+		$region = sortRegion($newArray[0][$i]['Longitude'], $newArray[0][$i]['Latitude']);
+                $checkExisting= array('Type' => $newArray[0][$i]['Type'], 'Longitude' => $newArray[0][$i]['Longitude'],
+                                        'Latitude'=>$newArray[0][$i]['Latitude'], 'Message' => $newArray[0][$i]['Message'],
+                                        'status' => $status,'region'=>$region, 'date'=>$date);
                   $cursorFind = $collection->findOne($checkExisting);
                  if (!empty($cursorFind)){
                       $collection->updateOne($checkExisting);
                  }
                  else
                  {
-                    $trafficIncident= array("Type" => $newArray[0][$i]["Type"], "Longitude" => $newArray[0][$i]["Longitude"],
-                                        "Latitude"=>$newArray[0][$i]["Latitude"], "Message" => $newArray[0][$i]["Message"],
-                                        "status" => $status,"region"=>$region,"date"=>$date);
+                    $trafficIncident= array('Type' => $newArray[0][$i]['Type'], 'Longitude' => $newArray[0][$i]['Longitude'],
+                                        'Latitude'=>$newArray[0][$i]['Latitude'], 'Message' => $newArray[0][$i]['Message'],
+                                        'status' => $status,'region'=>$region, 'date'=>$date);
                     $collection->insertOne($trafficIncident);
                  }
 

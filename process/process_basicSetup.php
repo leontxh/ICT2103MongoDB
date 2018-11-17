@@ -11,5 +11,6 @@
 //       echo "Connect successfully";
 //       print_r($result);
 //    }
+  date_default_timezone_set("Europe/Berlin");
 
 ?>

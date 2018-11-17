@@ -7,6 +7,8 @@ include 'process/process_basicSetup.php';
 $results_per_page = 15;
 
 $date = new MongoDB\BSON\UTCDateTime((new DateTime('today'))->getTimestamp()*1000);
+//echo $date;
+
 if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
 $start_from = ($page-1) * $results_per_page;
 $collection = $db->traffic_incident;
@@ -109,7 +111,7 @@ if(!isset($_SESSION['username'])){ //if login in session is not set
                           //$sql = "SELECT COUNT(trafficID) AS total FROM traffic_incident";
                           //$cursorFind = $collection->find(array("_id" => (new MongoDB\BSON\ObjectID())));
                           //s$timeDate = array('date' => $date);
-                          $cursorFind = $collection->count(array('date' => $date));
+                          $cursorFind = $collection->count(array('date'=>$date));
                           //$total = count(var_dump($cursorFind));
                           //$result = $conn->query($sql);
                           //$row = $result->fetch_assoc();
