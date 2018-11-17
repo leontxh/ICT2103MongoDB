@@ -47,8 +47,8 @@ $date = new MongoDB\BSON\UTCDateTime((new DateTime('today'))->getTimestamp()*100
                     <form method="GET" name="search" action="basicSearch.php">
                         <div id="demo-grid">
                             <div class="search-box">
-                                <select id="Place" name="Type[]" multiple="multiple">
-                                      <option value="0" selected="selected">Select type</option>
+                                <select id="Place" name="Type[]" multiple="multiple" style="width:150px;">
+                                      <option value="0" selected="selected">Select Type</option>
                                         <?php
                                         if (! empty($typeResult)) {
                                             foreach ($typeResult as $key => $value) {
