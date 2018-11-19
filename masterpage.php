@@ -21,7 +21,7 @@
         <nav class="navbar navbar-style navbar-fixed-top" id="mNavbar">
 
                 <div class="navbar-header">
-                    <a href="loginindex.php"><img class="logo" src="logo.png"></a>
+                    <img class="logo" src="logo.png">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#micon">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
