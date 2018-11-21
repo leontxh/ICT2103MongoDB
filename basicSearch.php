@@ -138,6 +138,10 @@ $date = new MongoDB\BSON\UTCDateTime((new DateTime('today'))->getTimestamp()*100
                                         echo ' ';
                                         echo '<a class="btn btn-primary" href="viewIncident.php?trafficID='.$doc['_id'].'">View</a>';
                                         echo ' ';
+                                        echo '<a class="btn btn-success" href="update.php?trafficID='.$doc['_id'].'">Update</a>';
+                                              echo ' ';
+                                              echo '<a class="btn btn-danger" href="delete.php?trafficID='.$doc['_id'].'">Delete</a>';
+                                              echo '</td>';
                                         echo "</tr>";
                                     ?>
                                 <?php

@@ -4,7 +4,6 @@ include 'masterpage.php';
         $trafficID = $_REQUEST['trafficID'];
     }
      if ( null==$trafficID ) {
-        header("Location: traffictable.php");
     }
     
     if ( !empty($_POST)) {
@@ -15,10 +14,11 @@ include 'masterpage.php';
     
     try {
                 $cursor = $collection->deleteOne(array("_id" => (new MongoDB\BSON\ObjectID($trafficID))));   
-                echo $cursor;
+               
                 echo '<script language="javascript">
                 alert("Delete Successfully");
         </script>';
+
         } catch(MongoCursorException $e) {
              echo '<script language="javascript">
                 alert("Delete fail");
@@ -60,14 +60,14 @@ include 'masterpage.php';
                      
                     <form class="form-horizontal" action="delete.php" method="post">
                       <input type="hidden" name="trafficID" value="<?php echo $trafficID;?>"/>
-                      <p class="alert alert-error">Are you sure to delete ?</p>
+                      <p>Are you sure to delete ?</p>
                       <div class="form-actions">
                           <button type="submit" class="btn btn-danger">Yes</button>
                           <a href="javascript:history.go(-1)">No</a>
                           
                           <br> <br>
                           
-                          <a href="javascript:history.go(-1)" title="Return to the previous page">&laquo; Go back to previous page</a>
+                          <a href="javascript:history.go(-2)" title="Return to the previous page">&laquo; Go back to previous page</a>
                         </div>
                     </form>
                 </div>

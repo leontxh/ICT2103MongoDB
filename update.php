@@ -183,7 +183,7 @@
                       <br>
                         <div class="form-actions">
                           <button type="submit" class="btn btn-success">Update</button>
-                          <input type="button" class="btn btn-warning" onclick="location.href='traffictable.php'" value="&laquo; Go back">
+                          <input type="button" class="btn btn-warning" onclick="location.href='javascript:history.go(-1)'"value="&laquo; Go back">
                         </div>
                                     </div>
                 </div>
