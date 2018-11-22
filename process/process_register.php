@@ -1,4 +1,4 @@
-<?php
+<?php 
     $nameErr = $passwordErr = $cpasswordErr = $emailErr = "";
     $mailFormat = "/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/";
     $nameFormat = "/A-Za-z/";
@@ -6,9 +6,10 @@
     include 'process_basicSetup.php';
     
 	// Check connection
-    if($db === false)
-        die("ERROR: Could not connect.");
-	if(isset($_POST['submit']))
+        if($db === false) {
+            die("ERROR: Could not connect.");
+        }
+	if(isset($_POST['submit3']))
 	{
         // Escape user inputs for security
         $username = $_REQUEST['username'];
@@ -31,7 +32,7 @@
         if (empty($_POST["passwordC"])) {
             $cpasswordErr = "Please confirm your password";
         }
-        else if ($_POST["password"] !== $_POST["passwordC"])
+        else if ($_POST["password"] != $_POST["passwordC"])
         {
             $cpasswordErr = "Please ensure your password is the same";
         }
@@ -63,7 +64,7 @@
                                 "password" => $password,
                                 "email" => $email);
                 $collection->insertOne($insert);
-                header("Location: SuccessfulAccount.php");
+                header('Location: SuccessfulAccount.php');
             }
         }
     }

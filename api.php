@@ -32,8 +32,8 @@
 	$status = 'Unresolved';
 
 
-        //$date = new MongoDB\BSON\UTCDateTime((new DateTime('today'))->getTimestamp()*1000);
-        $date = 1542409200000;
+        $date = new MongoDB\BSON\UTCDateTime((new DateTime('today'))->getTimestamp()*1000);
+        
 	for ($i=0;$i<count($newArray[0]);$i++){
 
 		$region = sortRegion($newArray[0][$i]['Longitude'], $newArray[0][$i]['Latitude']);

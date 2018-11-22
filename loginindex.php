@@ -149,7 +149,7 @@
                                                         <div class="form-group">
                                                             <div class="row">
                                                                 <div class="text-center">
-                                                                    <button id="submit" type="submit" name="submit" class="btn btn-register btn-lg">Register Now</button>                                               
+                                                                    <button id="submit" type="submit" name="submit3" class="btn btn-register btn-lg">Register Now</button>                                               
                                                                 </div>
                                                             </div>
                                                         </div>

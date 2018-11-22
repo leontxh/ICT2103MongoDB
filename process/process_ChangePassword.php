@@ -26,7 +26,7 @@ $collection = $db->user;
     if(isset($_POST['change'])){
        if ($verify == 1){
             if ($newpassword == $confirmpassword){
-                $idInfo = array("userID"  => $_SESSION['id']);
+                $idInfo = array("username"  => $_SESSION['username']);
                 $cursorFind = $collection->findOne($idInfo);
                 
                 if ($oldpassword == $cursorFind['password']){
@@ -35,7 +35,7 @@ $collection = $db->user;
                     else if (strlen($newpassword) < 8)
                         echo "<p style=\"color:red;\">Please enter a new password with at least 8 characters.</p>";
                     else{
-                        $updateStatus = $collection -> updateOne(array("userID" => $_SESSION['id']), array('$set' => array("password" => $newpassword)));
+                        $updateStatus = $collection -> updateOne(array("username" => $_SESSION['username']), array('$set' => array("password" => $newpassword)));
                         echo "<p style=\"color:green;\">Password updated successfully.</p>";
                     }
                 }

@@ -46,9 +46,9 @@ if(!isset($_SESSION['username'])){ //if login in session is not set
 
                 <div class="maincontent">
 
-                      <button class="btn btn-info"><a style="text-decoration: none; color: white;" href='api.php' target="target" onclick="return RefreshWindow();">Update Table</a></button>
+                      <button class="btn btn-info"><a style="text-decoration: none; color: white;" href="api.php" target="target" onclick="return RefreshWindow();">Update Table</a></button>
 
-                    <script language='javascript'>
+                    <script type="text/javascript">
                         function RefreshWindow()
                         {
                             window.location.reload(true);
