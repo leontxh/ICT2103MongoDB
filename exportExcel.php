@@ -10,7 +10,9 @@
 include 'process/process_basicSetup.php';
 $collection = $db->traffic_incident;
 
-$cursor = $collection->find();
+$date = new MongoDB\BSON\UTCDateTime((new DateTime('today'))->getTimestamp()*1000);
+
+$cursor = $collection->find(array('date'=>$date));
 		
 
 if (!$cursor) {
